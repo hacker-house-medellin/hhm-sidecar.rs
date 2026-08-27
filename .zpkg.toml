@@ -1,0 +1,28 @@
+[package]
+org = "hacker-house-medellin"
+name = "hhm-sidecar"
+version = "0.1.0"
+description = "k8s sidecar for Hacker House Medellin (health, future NATS bridge)."
+license = "MIT"
+keywords = ["sidecar", "observability", "k8s"]
+language = "rust"
+
+[package.repository]
+vcs = "git"
+url = "https://github.com/hacker-house-medellin/hhm-sidecar.rs"
+
+[dependencies]
+"ores-otel/ores-otel-sidecar" = "^0.1.0"
+
+[build]
+command = "cargo build --release --locked --bin hhm-sidecar"
+outputs = ["target/release/hhm-sidecar"]
+
+[bin]
+hhm-sidecar = "target/release/hhm-sidecar"
+
+[install]
+adapter = "none"
+
+[scripts]
+test = "cargo test --all-targets --locked"
