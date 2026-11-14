@@ -5,6 +5,8 @@ k8s sidecar for Hacker House Medellin (health, future NATS bridge).
 Inherits [`ores-otel-sidecar`](https://github.com/ores-otel/ores-otel-sidecar.rs).
 Bind with `HHM_SIDECAR_BIND` (default `127.0.0.1:9090`).
 
+An explicitly configured invalid bind address causes startup to fail without falling back to another listener. The sidecar rejects wildcard (`0.0.0.0`, `[::]`) and public addresses and listens on loopback only; the service does not silently enable public listening through a separate environment override.
+
 ```sh
 cargo run --bin hhm-sidecar
 ```
