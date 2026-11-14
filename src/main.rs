@@ -1,7 +1,9 @@
 #![forbid(unsafe_code)]
 
+#[rustfmt::skip]
 #[path = "../generated/rust/env.rs"]
 mod env;
+#[rustfmt::skip]
 #[path = "../generated/rust/runtime.rs"]
 mod env_runtime;
 
@@ -10,17 +12,14 @@ use ores_otel_sidecar::{runtime, SidecarConfig, SidecarIdentity};
 /// A configured but malformed listen address must fail startup rather than
 /// silently falling back to another address or listener policy.
 fn config_from_bind(bind: &str) -> std::io::Result<SidecarConfig> {
-    SidecarConfig::from_bind(
-        SidecarIdentity::new(env::SERVICE, env::BIND),
-        bind,
-        false,
+    SidecarConfig::from_bind(SidecarIdentity::new(env::SERVICE, env::BIND), bind, false).map_err(
+        |_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "HHM_SIDECAR_BIND must be a valid permitted socket address",
+            )
+        },
     )
-    .map_err(|_| {
-        std::io::Error::new(
-            std::io::ErrorKind::InvalidInput,
-            "HHM_SIDECAR_BIND must be a valid permitted socket address",
-        )
-    })
 }
 
 fn main() -> std::io::Result<()> {
