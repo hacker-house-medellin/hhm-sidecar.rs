@@ -43,8 +43,7 @@ mod tests {
     #[test]
     fn malformed_bind_does_not_fall_back() {
         for bad in ["", "0.0.0.0:9090", "[::]:9090", "1.1.1.1:9090", "127.0.0.1"] {
-            let error = config_from_bind(bad)
-                .expect_err("malformed bind must fail closed");
+            let error = config_from_bind(bad).expect_err("malformed bind must fail closed");
             assert_eq!(error.kind(), std::io::ErrorKind::InvalidInput);
             if !bad.is_empty() {
                 assert!(!error.to_string().contains(bad));
