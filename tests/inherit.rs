@@ -1,7 +1,9 @@
 #![forbid(unsafe_code)]
 
+#[rustfmt::skip]
 #[path = "../generated/rust/env.rs"]
 mod env;
+#[rustfmt::skip]
 #[path = "../generated/rust/runtime.rs"]
 mod env_runtime;
 
